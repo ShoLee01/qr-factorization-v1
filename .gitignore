@@ -1,0 +1,11 @@
+.DS_Store
+.vscode/
+
+qr-api/node_modules
+stats-api/node_modules
+qr-api/.env
+stats-api/.env
+qr-api/dist
+stats-api/dist
+
+.env

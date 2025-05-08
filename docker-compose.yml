@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  qr-api:
+    build: ./qr-api
+    ports:
+      - "3000:3000"
+    environment:
+      - JWT_SECRET=JWT_SECRET
+      - STATS_API_URL=STATS_API_URL
+      - PORT=3000
+
+  stats-api:
+    build: ./stats-api
+    ports:
+      - "3001:3001"
+    environment:
+      - JWT_SECRET=JWT_SECRET
+      - PORT=3001
