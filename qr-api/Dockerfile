@@ -1,25 +1,40 @@
-# instalamos dependencias y compilamos TS a JS
 FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# Copiamos package.json / lock
+# 1. Copiar archivos de configuración
 COPY package*.json ./
+COPY tsconfig*.json ./
 
-# Instalamos dependencias
-RUN npm ci
+# 2. Instalar dependencias
+RUN npm ci --include=dev && \
+    npm cache clean --force
 
-# Copiamos el resto del código y compilamos
-COPY . .
-RUN npm run build
+# 3. Copiar código fuente
+COPY src ./src
 
-# basados en la imagen de Lambda Node.js
+# 4. Compilar y limpiar
+RUN npm run build && \
+    rm -rf src test
+
+# --------------------------------------------
+# Etapa de producción ultra ligera
 FROM public.ecr.aws/lambda/nodejs:18
 
-# Copiamos solo el código compilado
-COPY --from=build /app/dist /var/task
-COPY --from=build /app/node_modules /var/task/node_modules
-# Si usas .env u otro config, inclúyelo aquí:
-# COPY --from=build /app/.env /var/task/.env
+WORKDIR /var/task
+
+# 5. Copiar solo lo esencial
+COPY --from=build /app/dist ./
+COPY --from=build /app/node_modules ./node_modules
+
+# 6. Configuración de seguridad
+RUN find . -type f -name "*.d.ts" -delete && \
+    find . -type f -name "*.map" -delete
+
+# 7. Permisos de ejecución
+RUN chmod -R 755 /var/task
+
+# 8. Variables de entorno
+ENV NODE_ENV=production
 
 CMD ["app.main"]

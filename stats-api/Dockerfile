@@ -1,4 +1,3 @@
-# Dockerfile corregido
 FROM node:18-alpine AS build
 
 WORKDIR /app
@@ -7,7 +6,7 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig*.json ./
 
-# 2. Instalar dependencias INCLUYENDO devDependencies
+# 2. Instalar dependencias
 RUN npm ci --include=dev && \
     npm cache clean --force
 
@@ -35,7 +34,7 @@ RUN find . -type f -name "*.d.ts" -delete && \
 # 7. Permisos de ejecución
 RUN chmod -R 755 /var/task
 
-# 8. Variables de entorno (ejemplo)
+# 8. Variables de entorno
 ENV NODE_ENV=production
 
 CMD ["app.main"]
