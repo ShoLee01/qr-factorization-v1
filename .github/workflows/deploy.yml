@@ -53,7 +53,7 @@ jobs:
           aws lambda update-function-configuration \
             --function-name QRAPIFunction \
             --region $AWS_REGION \
-            --environment "Variables={JWT_SECRET=${{ secrets.JWT_QR_SECRET }},STATS_API_URL=${{ secrets.STATS_API_URL }}}"
+            --environment "Variables={JWT_SECRET=${{ secrets.JWT_QR_SECRET }},STATS_API_URL=${{ secrets.STATS_API_URL }},JWT_STATS_SECRET=${{ secrets.JWT_STATS_SECRET }}}"
 
   deploy-stats-api:
     runs-on: ubuntu-latest
@@ -99,4 +99,4 @@ jobs:
           aws lambda update-function-configuration \
             --function-name StatsAPIFunction \
             --region $AWS_REGION \
-            --environment "Variables={JWT_STATS_SECRET=${{ secrets.JWT_STATS_SECRET }}}"
+            --environment "Variables={JWT_SECRET=${{ secrets.JWT_STATS_SECRET }}}"
