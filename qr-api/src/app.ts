@@ -28,8 +28,10 @@ app.use((
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`QR API escuchando en http://localhost:${PORT}`);
-});
+// Desarrollo local
+if (process.env.NODE_ENV === 'development') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`QR API escuchando en http://localhost:${PORT}`);
+  });
+}
