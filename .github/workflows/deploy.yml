@@ -42,6 +42,11 @@ jobs:
             --image-uri $ECR_REGISTRY/qr-api:latest \
             --region $AWS_REGION
 
+      - name: Wait for Lambda code update to complete
+        run: |
+          aws lambda wait function-updated \
+            --function-name QRAPIFunction \
+            --region $AWS_REGION
 
       - name: Update Lambda Configuration
         run: |
