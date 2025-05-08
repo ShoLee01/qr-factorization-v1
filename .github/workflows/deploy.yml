@@ -42,8 +42,11 @@ jobs:
             --image-uri $ECR_REGISTRY/qr-api:latest \
             --region $AWS_REGION
 
-      - name: Sleep a bit to avoid race
-        run: sleep 5
+      - name: Wait for Lambda code update to complete
+        run: |
+          aws lambda wait function-updated \
+            --function-name QRAPIFunction \
+            --region $AWS_REGION
 
       - name: Update Lambda Configuration
         run: |
@@ -85,8 +88,11 @@ jobs:
             --image-uri $ECR_REGISTRY/stats-api:latest \
             --region $AWS_REGION
 
-      - name: Sleep a bit to avoid race
-        run: sleep 5
+      - name: Wait for Lambda code update to complete
+        run: |
+          aws lambda wait function-updated \
+            --function-name QRAPIFunction \
+            --region $AWS_REGION
 
       - name: Update Lambda Configuration
         run: |
