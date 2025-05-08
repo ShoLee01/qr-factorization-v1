@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import qrRoutes from './routes/qrRoutes';
 import { ErrorResponse } from './types/qr';
+import serverless from '@codegenie/serverless-express';
 
 dotenv.config();
 
@@ -27,6 +28,12 @@ app.use((
   console.error(err.stack);
   res.status(500).json({ error: 'Error interno del servidor' });
 });
+
+// AWS Lambda Handler
+const handler = serverless({ app });
+export const main = async (event: any, context: any) => {
+  return handler(event, context);
+};
 
 // Desarrollo local
 if (process.env.NODE_ENV === 'development') {
