@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import statsRoutes from './routes/statsRoutes';
 import { ErrorResponse } from './types/stats';
+import serverless from '@codegenie/serverless-express';
 
 dotenv.config();
 
@@ -28,7 +29,12 @@ app.use((
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-// Iniciar servidor
+// AWS Lambda Handler
+const handler = serverless({ app });
+export const main = async (event: any, context: any) => {
+  return handler(event, context);
+};
+
 // Desarrollo local
 if (process.env.NODE_ENV === 'development') {
   const PORT = process.env.PORT || 3000;
