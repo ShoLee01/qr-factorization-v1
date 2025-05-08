@@ -15,7 +15,7 @@ app.use(helmet());
 app.use(cors());
 
 // Rutas
-app.use('/api', statsRoutes);
+app.use('/dev/api', statsRoutes);
 
 // Manejo de errores
 app.use((

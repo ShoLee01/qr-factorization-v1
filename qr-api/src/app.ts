@@ -16,7 +16,7 @@ app.use(helmet());
 app.use(cors());
 
 // Rutas
-app.use('/api', qrRoutes);
+app.use('/dev/api', qrRoutes);
 
 // Manejo de errores global
 app.use((
