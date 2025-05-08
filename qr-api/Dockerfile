@@ -1,4 +1,4 @@
-# 1) Stage de build: instalamos dependencias y compilamos TS a JS
+# instalamos dependencias y compilamos TS a JS
 FROM node:18-alpine AS build
 
 WORKDIR /app

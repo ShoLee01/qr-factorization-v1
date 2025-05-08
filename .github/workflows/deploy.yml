@@ -35,14 +35,15 @@ jobs:
           docker tag qr-api:latest $ECR_REGISTRY/qr-api:latest
           docker push $ECR_REGISTRY/qr-api:latest
 
+      - name: Update Lambda QR API
+        run: |
+          aws lambda update-function-code \
+            --function-name QRAPIFunction \
+            --image-uri $ECR_REGISTRY/qr-api:latest \
+            --region $AWS_REGION
+
       - name: Sleep a bit to avoid race
         run: sleep 5
-
-      - name: Wait for Lambda code update to complete
-        run: |
-          aws lambda wait function-updated \
-            --function-name QRAPIFunction \
-            --region $AWS_REGION
 
       - name: Update Lambda Configuration
         run: |
@@ -83,3 +84,13 @@ jobs:
             --function-name StatsAPIFunction \
             --image-uri $ECR_REGISTRY/stats-api:latest \
             --region $AWS_REGION
+
+      - name: Sleep a bit to avoid race
+        run: sleep 5
+
+      - name: Update Lambda Configuration
+        run: |
+          aws lambda update-function-configuration \
+            --function-name QRAPIFunction \
+            --region $AWS_REGION \
+            --environment "Variables={JWT_STATS_SECRET=${{ secrets.JWT_STATS_SECRET }}}"
