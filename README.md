@@ -8,7 +8,7 @@ Sistema de microservicios para Factorización QR de matrices y análisis estadí
 2. **Stats-API**: Calcula métricas estadísticas de matrices
 
 ## Diagrama de Flujo
-```mermaid
+```bash
 Cliente 
   │ 
   ▼ (1) Envía matriz original
