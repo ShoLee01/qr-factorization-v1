@@ -1,20 +1,20 @@
-# Etapa de construcción optimizada
+# Dockerfile corregido
 FROM node:18-alpine AS build
 
 WORKDIR /app
 
-# 1. Copiar solo lo necesario para instalar dependencias
+# 1. Copiar archivos de configuración
 COPY package*.json ./
 COPY tsconfig*.json ./
 
-# 2. Instalación limpia de dependencias
-RUN npm ci --omit=dev && \
+# 2. Instalar dependencias INCLUYENDO devDependencies
+RUN npm ci --include=dev && \
     npm cache clean --force
 
-# 3. Copiar solo archivos relevantes para construcción
+# 3. Copiar código fuente
 COPY src ./src
 
-# 4. Compilar proyecto y limpiar
+# 4. Compilar y limpiar
 RUN npm run build && \
     rm -rf src test
 
