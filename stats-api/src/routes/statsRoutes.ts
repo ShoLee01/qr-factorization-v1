@@ -6,6 +6,6 @@ import { loginHandler } from '../services/loginService';
 const router = Router();
 
 router.post('/stats', authenticateJWT, StatsController.calculateStats);
-router.post('/login', loginHandler);
+router.get('/login', loginHandler);
 
 export default router;
