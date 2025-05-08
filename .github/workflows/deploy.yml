@@ -42,6 +42,14 @@ jobs:
             --image-uri $ECR_REGISTRY/qr-api:latest \
             --region $AWS_REGION
 
+
+      - name: Update Lambda Configuration
+        run: |
+          aws lambda update-function-configuration \
+            --function-name QRAPIFunction \
+            --region $AWS_REGION \
+            --environment "Variables={JWT_SECRET=${{ secrets.JWT_QR_SECRET }},STATS_API_URL=${{ secrets.STATS_API_URL }}}"
+
   deploy-stats-api:
     runs-on: ubuntu-latest
     needs: deploy-qr-api

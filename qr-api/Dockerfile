@@ -13,7 +13,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# 2) Stage final: basados en la imagen de Lambda Node.js
+# basados en la imagen de Lambda Node.js
 FROM public.ecr.aws/lambda/nodejs:18
 
 # Copiamos solo el código compilado
@@ -22,5 +22,4 @@ COPY --from=build /app/node_modules /var/task/node_modules
 # Si usas .env u otro config, inclúyelo aquí:
 # COPY --from=build /app/.env /var/task/.env
 
-# Establece el handler: módulo 'app' (dist/app.js) y función 'main'
 CMD ["app.main"]
