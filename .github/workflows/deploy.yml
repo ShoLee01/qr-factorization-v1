@@ -91,12 +91,12 @@ jobs:
       - name: Wait for Lambda code update to complete
         run: |
           aws lambda wait function-updated \
-            --function-name QRAPIFunction \
+            --function-name StatsAPIFunction \
             --region $AWS_REGION
 
       - name: Update Lambda Configuration
         run: |
           aws lambda update-function-configuration \
-            --function-name QRAPIFunction \
+            --function-name StatsAPIFunction \
             --region $AWS_REGION \
             --environment "Variables={JWT_STATS_SECRET=${{ secrets.JWT_STATS_SECRET }}}"
