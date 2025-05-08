@@ -6,6 +6,6 @@ import { loginHandler } from '../services/loginService';
 const router = Router();
 
 router.post('/qr', authenticateJWT, QRController.processMatrix);
-router.post('/login', loginHandler);
+router.get('/login', loginHandler);
 
 export default router;
